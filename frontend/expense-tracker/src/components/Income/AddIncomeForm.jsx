@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 import Input from "../Inputs/Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
-
-// Map wallets to emoji image URLs
-const walletIcons = {
-  Allowance: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b8.png", // 💸
-  Savings: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3e6.png", // 🏦
-  Credit: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b3.png", // 💳
-  Debit: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3e7.png", // 🏧
-  Salary: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4bc.png", // 💼
-};
 
 const AddIncomeForm = ({ onAddIncome }) => {
   const [income, setIncome] = useState({
@@ -18,13 +11,22 @@ const AddIncomeForm = ({ onAddIncome }) => {
     date: "",
     icon: "",
   });
+  const [wallets, setWallets] = useState([]);
+
+  useEffect(() => {
+    // Fetch only wallet categories
+    axiosInstance.get(API_PATHS.CATEGORY.GET_ALL + "?type=wallet").then((res) => {
+      setWallets(res.data);
+    });
+  }, []);
 
   const handleChange = (key, value) => {
     if (key === "wallet") {
+      const selected = wallets.find((cat) => cat._id === value);
       setIncome({
         ...income,
         wallet: value,
-        icon: walletIcons[value] || "",
+        icon: selected?.icon || "",
       });
     } else {
       setIncome({ ...income, [key]: value });
@@ -33,6 +35,10 @@ const AddIncomeForm = ({ onAddIncome }) => {
 
   return (
     <div>
+      <EmojiPickerPopup
+        icon={income.icon}
+        onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
+      />
 
       <label>
         Wallet
@@ -42,19 +48,18 @@ const AddIncomeForm = ({ onAddIncome }) => {
           className="input"
         >
           <option value="">Select wallet</option>
-          <option value="Allowance">Allowance 💸</option>
-          <option value="Savings">Savings 🏦</option>
-          <option value="Credit">Credit 💳</option>
-          <option value="Debit">Debit 🏧</option>
-          <option value="Salary">Salary 💼</option>
-        </select>v
+          {wallets.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
       </label>
 
       <Input
         value={income.amount}
         onChange={({ target }) => handleChange("amount", target.value)}
         label="Amount"
-        placeholder=""
         type="number"
       />
 
@@ -62,7 +67,6 @@ const AddIncomeForm = ({ onAddIncome }) => {
         value={income.date}
         onChange={({ target }) => handleChange("date", target.value)}
         label="Date"
-        placeholder=""
         type="date"
       />
 

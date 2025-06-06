@@ -1,75 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 import Input from "../Inputs/Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
-import { FaHome, FaShoppingCart, FaLightbulb, FaCar, FaFilm, FaQuestion } from "react-icons/fa";
-
-// Map categories to icons
-const categoryIcons = {
-  Rent: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3e0.png", // 🏠
-  Groceries: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f6d2.png", // 🛒
-  Utilities: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4a1.png", // 💡
-  Transport: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f697.png", // 🚗
-  Entertainment: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f3ac.png", // 🎬
-  Other: "https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/2753.png", // ❓
-};
 
 const AddExpenseForm = ({ onAddExpense }) => {
-  const [income, setIncome] = useState({
+  const [expense, setExpense] = useState({
     category: "",
     amount: "",
     date: "",
     icon: "",
   });
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch only expense categories
+    axiosInstance.get(API_PATHS.CATEGORY.GET_ALL + "?type=expense").then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
 
   const handleChange = (key, value) => {
     if (key === "category") {
-      setIncome({
-        ...income,
+      const selected = categories.find((cat) => cat._id === value);
+      setExpense({
+        ...expense,
         category: value,
-        icon: categoryIcons[value] || "",
+        icon: selected?.icon || "",
       });
     } else {
-      setIncome({ ...income, [key]: value });
+      setExpense({ ...expense, [key]: value });
     }
   };
 
   return (
     <div>
       <EmojiPickerPopup
-        icon={income.icon}
+        icon={expense.icon}
         onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
       />
 
       <label>
         Category
         <select
-          value={income.category}
+          value={expense.category}
           onChange={({ target }) => handleChange("category", target.value)}
           className="input"
         >
           <option value="">Select category</option>
-          <option value="Rent">Rent 🏠</option>
-          <option value="Groceries">Groceries 🛒</option>
-          <option value="Utilities">Utilities 💡</option>
-          <option value="Transport">Transport 🚗</option>
-          <option value="Entertainment">Entertainment 🎬</option>
-          <option value="Other">Other ❓</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
         </select>
       </label>
 
       <Input
-        value={income.amount}
+        value={expense.amount}
         onChange={({ target }) => handleChange("amount", target.value)}
         label="Amount"
-        placeholder=""
         type="number"
       />
 
       <Input
-        value={income.date}
+        value={expense.date}
         onChange={({ target }) => handleChange("date", target.value)}
         label="Date"
-        placeholder=""
         type="date"
       />
 
@@ -77,7 +74,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
         <button
           type="button"
           className="add-btn add-btn-fill"
-          onClick={() => onAddExpense(income)}
+          onClick={() => onAddExpense(expense)}
         >
           Add Expense
         </button>
