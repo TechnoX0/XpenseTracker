@@ -10,13 +10,12 @@ const axiosInstance = axios.create({
   },
 });
 
+// Set the Authorization header common for all requests
+axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem("token");
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
     return config;
   },
   (error) => {

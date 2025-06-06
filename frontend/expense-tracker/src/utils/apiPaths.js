@@ -25,4 +25,10 @@ export const API_PATHS = {
   IMAGE: {
     UPLOAD_IMAGE: "/api/v1/auth/upload-image",
   },
+  CATEGORY: {
+    ADD: "/api/v1/category/add",
+    GET_ALL: "/api/v1/category/get",
+    UPDATE: (id) => `/api/v1/category/${id}`,
+    DELETE: (id) => `/api/v1/category/${id}`,
+  },
 };
