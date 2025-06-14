@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CustomBarChart from "../charts/CustomBarChart";
+import CustomBarChart from "../Charts/CustomBarChart";
 import { prepareExpenseBarChartData } from "../../utils/helper";
 
 const Last30DaysExpenses = ({ data, cols=1 }) => {
