@@ -13,16 +13,31 @@ const app = express();
 
 // Middleware to handle CORS
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "*", 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"], 
-  })
+    cors({
+        origin: process.env.CLIENT_URL || "*",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
 );
 
 app.use(express.json());
 
-connectDB();
+app.get("/", (req, res) => {
+    res.send("Server is up and running.");
+});
+
+connectDB()
+    .then(() => {
+        console.log("DB connected. Starting Express...");
+
+        app.listen(PORT, () => {
+            console.log(`✅ Server running on port ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error("❌ DB connection failed:", err);
+        process.exit(1);
+    });
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
