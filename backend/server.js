@@ -26,6 +26,17 @@ app.get("/", (req, res) => {
     res.send("Server is up and running.");
 });
 
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/income", incomeRoutes);
+app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/category", categoryRoutes);
+
+// Serve uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 connectDB()
     .then(() => {
         console.log("DB connected. Starting Express...");
@@ -38,15 +49,3 @@ connectDB()
         console.error("❌ DB connection failed:", err);
         process.exit(1);
     });
-
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/income", incomeRoutes);
-app.use("/api/v1/expense", expenseRoutes);
-app.use("/api/v1/dashboard", dashboardRoutes);
-app.use("/api/v1/category", categoryRoutes);
-
-// Serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
