@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import FinanceOverview from "../../components/Dashboard/FinanceOverview"
 import Last30DaysExpenses from "../../components/Dashboard/Last30DaysExpenses"
 import RecentIncomeWithChart from "../../components/Dashboard/RecentIncomeWithChart"
-import DashboardLayout from "../../components/layouts/DashboardLayout"
+import DashboardLayout from "../../components/Layouts/DashboardLayout"
 
 function Analysis() {
 
