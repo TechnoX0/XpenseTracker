@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
@@ -10,12 +10,9 @@ import { useUserAuth } from "../../hooks/useUserAuth";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { addThousandsSeparator } from "../../utils/helper";
-import RecentTransactions from "../../components/Dashboard/RecentTransactions";
 import FinanceOverview from "../../components/Dashboard/FinanceOverview";
 import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions";
-import Last30DaysExpenses from "../../components/Dashboard/Last30DaysExpenses";
 import RecentIncome from "../../components/Dashboard/RecentIncome";
-import RecentIncomeWithChart from "../../components/Dashboard/RecentIncomeWithChart";
 
 const Home = () => {
   useUserAuth();

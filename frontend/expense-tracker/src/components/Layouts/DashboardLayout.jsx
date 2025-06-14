@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { UserContext } from "../../context/UserContext";

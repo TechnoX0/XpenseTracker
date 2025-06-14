@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
-import AuthLayout from "../../components/Layouts/AuthLayout";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/Inputs/Input";
 import { validateEmail, isStrongPassword } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import { API_PATHS } from "../../utils/apiPaths";

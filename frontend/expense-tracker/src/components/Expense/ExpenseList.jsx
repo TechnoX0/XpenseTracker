@@ -1,4 +1,3 @@
-import React from "react";
 import TransactionInfoCard from "../cards/TransactionInfoCard";
 import moment from "moment";
 import { LuDownload } from "react-icons/lu";

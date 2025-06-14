@@ -1,4 +1,3 @@
-import React from "react";
 import CustomPieChart from "../charts/CustomPieChart";
 
 const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {

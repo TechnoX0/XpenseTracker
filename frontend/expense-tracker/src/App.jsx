@@ -4,7 +4,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import React, { useEffect, useState } from "react";
 import LoginForm from "./pages/Auth/LoginForm";
 import SignUpForm from "./pages/Auth/SignUpForm";
 import UserProvider from "./context/UserContext";
@@ -15,8 +14,6 @@ import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 import Category from "./pages/Dashboard/Category";
 import Analysis from "./pages/Dashboard/Analysis";
-import Navbar from "./components/layouts/Navbar";
-import { ThemeProvider, useTheme } from "./ThemeContext";
 
 const App = () => {
   return (
