@@ -89,8 +89,8 @@ const SignUpForm = () => {
 
   return (
 
-    <div className='bg-[#000819] text-white h-screen flex flex-col items-center pt-20'>
-        <div className='bg-[#111827] flex flex-col pb-6 px-4 rounded-md' style={{ width: 400, maxWidth: '90vw' }}>
+    <div className='bg-muted text-text h-screen flex flex-col items-center pt-20'>
+        <div className='bg-background flex flex-col pb-6 px-4 rounded-md' style={{ width: 400, maxWidth: '90vw' }}>
             <div className='py-4 flex justify-center items-center'>
                 <img src={ logo } alt='GameVault' className='h-[70px]'/>
             </div>
@@ -99,7 +99,7 @@ const SignUpForm = () => {
                   <div className='flex flex-col gap-4'>
                     <div>
                         <input
-                        className='outline-2 outline-[#38ced0] bg-[#000000] text-white p-2 rounded-md w-full'
+                        className='outline-2 outline-accent bg-background text-text p-2 rounded-md w-full'
                         value={fullName}
                         onChange={({ target }) => setFullName(target.value)}
                         label="Full Name"
@@ -109,7 +109,7 @@ const SignUpForm = () => {
                     </div>
                     <div>
                         <input
-                        className='outline-2 outline-[#38ced0] bg-[#000000] text-white p-2 rounded-md w-full'
+                        className='outline-2 outline-accent bg-background text-text p-2 rounded-md w-full'
                         value={password}
                         onChange={({ target }) => setPassword(target.value)}
                         label="Password"
@@ -119,7 +119,7 @@ const SignUpForm = () => {
                     </div>
                     <div>
                         <input
-                        className='outline-2 outline-[#38ced0] bg-[#000000] text-white p-2 rounded-md w-full'
+                        className='outline-2 outline-accent bg-background text-text p-2 rounded-md w-full'
                         value={email}
                         onChange={({ target }) => setEmail(target.value)}
                         label="Email Address"
@@ -131,7 +131,7 @@ const SignUpForm = () => {
                   </div>
                     <div>
                         <button type='submit'
-                            className='bg-[#38ced0] flex p-1 mt-4 font-medium w-full justify-center text-center border-2 border-[#24b99c] outline-none rounded-md'
+                            className='bg-accent flex p-1 mt-4 font-medium w-full justify-center text-center border-2 border-accent outline-none rounded-md'
                         >
                         Submit
                         </button>
@@ -155,9 +155,9 @@ const SignUpForm = () => {
                 <p className='px-4'>or</p>
                 <p>__________________</p>
             </div>
-            <div className='bg-[#111827] p-2 flex flex-row gap-2 rounded-md'>
+            <div className='bg-muted p-2 flex flex-row gap-2 rounded-md'>
                     <p>Already have an account?</p>
-                    <Link className="font-medium text-primary underline" to="/login">
+                    <Link className="font-medium text-accent underline" to="/login">
                     Login
                   </Link>
                 </div>

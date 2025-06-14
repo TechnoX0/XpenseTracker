@@ -67,7 +67,7 @@ const Category = () => {
 
   return (
     <DashboardLayout activeMenu="Category">
-      <div className="my-5 mx-auto max-w-4xl">
+      <div className="my-5 mx-auto max-w-4xl text-text">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Categories</h2>
           <button
@@ -81,7 +81,7 @@ const Category = () => {
         {/* Expense Categories Table */}
         <h3 className="text-lg font-semibold mb-2 mt-6">Expense Categories</h3>
         <div className="overflow-x-auto mb-8">
-          <table className="min-w-full bg-white rounded shadow border border-gray-200">
+          <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
@@ -139,7 +139,7 @@ const Category = () => {
         {/* Wallets Table */}
         <h3 className="text-lg font-semibold mb-2">Wallets</h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded shadow border border-gray-200">
+          <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b border-gray-200 border-r text-center">

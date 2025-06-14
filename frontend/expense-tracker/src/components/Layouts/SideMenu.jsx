@@ -20,19 +20,20 @@ const SideMenu = ({ activeMenu }) => {
   };
 
   const handelLogout = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem("token");
     clearUser();
     navigate("/login");
   };
 
   return (
-    <div className="w-64 h-[calc(100vh-61px)] bg-secondary p-5 sticky top-[61px] z-20">
+    <div className="w-64 h-[calc(100vh-61px)] bg-background text-text p-5 sticky top-[61px] z-20">
       <div className="flex flex-col items-center justify-center gap-3 mt-3 mb-7">
         {user?.profileImageUrl ? (
           <img
             src={user?.profileImageUrl || ""}
             alt="Profile Image"
-            className="w-20 h-20 bg-slate-400 rounded-full"
+            className="w-20 h-20 bg-background rounded-full"
           />
         ) : (
           <CharAvatar
@@ -43,7 +44,7 @@ const SideMenu = ({ activeMenu }) => {
           />
         )}
 
-        <h5 className="text-white font-medium leading-6">
+        <h5 className="font-medium leading-6">
           {user.fullName || ""}
         </h5>
       </div>
@@ -51,8 +52,8 @@ const SideMenu = ({ activeMenu }) => {
       {SIDE_MENU_DATA.map((item, index) => (
         <button
           key={`menu_${index}`}
-          className={`w-full flex items-center gap-4 text-[15px] text-white ${
-            activeMenu == item.label ? "text-white bg-primary" : ""
+          className={`w-full flex items-center gap-4 text-[15px] ${
+            activeMenu == item.label ? "bg-accent" : ""
           } py-3 px-6 rounded-lg mb-3`}
           onClick={() => handleClick(item.path)}
         >

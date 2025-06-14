@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoginForm from "./pages/Auth/LoginForm";
 import SignUpForm from "./pages/Auth/SignUpForm";
 import UserProvider from "./context/UserContext";
@@ -14,34 +14,36 @@ import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expense from "./pages/Dashboard/Expense";
 import Category from "./pages/Dashboard/Category";
+import Analysis from "./pages/Dashboard/Analysis";
+import Navbar from "./components/layouts/Navbar";
+import { ThemeProvider, useTheme } from "./ThemeContext";
 
 const App = () => {
   return (
-    <div>
-      <UserProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Root />} />
-            <Route path="/login" exact element={<LoginForm />} />
-            <Route path="/signUp" exact element={<SignUpForm />} />
-            <Route path="/dashboard" exact element={<Home />} />
-            <Route path="/income" exact element={<Income />} />
-            <Route path="/expense" exact element={<Expense />} />
-            <Route path="/categories" exact element={<Category />} /> 
-          </Routes>
-        </Router>
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Root />} />
+          <Route path="/login" exact element={<LoginForm />} />
+          <Route path="/signUp" exact element={<SignUpForm />} />
+          <Route path="/dashboard" exact element={<Home />} />
+          <Route path="/income" exact element={<Income />} />
+          <Route path="/analysis" exact element={<Analysis />} />
+          <Route path="/expense" exact element={<Expense />} />
+          <Route path="/categories" exact element={<Category />} /> 
+        </Routes>
+      </Router>
 
-        <Toaster
-          toastOptions={{
-            className: "",
-            style: {
-              fontSize:'13px'
-            },
-          }}
-        />
-        
-      </UserProvider>
-    </div>
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize:'13px'
+          },
+        }}
+      />
+      
+    </UserProvider>
   );
 };
 
