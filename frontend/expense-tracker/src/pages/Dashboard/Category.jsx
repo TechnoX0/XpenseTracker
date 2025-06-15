@@ -66,7 +66,7 @@ const Category = () => {
   const walletCategories = categories.filter((cat) => cat.type === "wallet");
 
   return (
-    <DashboardLayout activeMenu="Category">
+    <DashboardLayout activeMenu="Categories">
       <div className="my-5 mx-auto max-w-4xl text-text">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Categories</h2>
@@ -207,14 +207,14 @@ const Category = () => {
               }
             />
             <select
-              className="input"
+              className="inpu"
               value={newCategory.type}
               onChange={(e) =>
                 setNewCategory({ ...newCategory, type: e.target.value })
               }
             >
-              <option value="expense">Expense Category</option>
-              <option value="wallet">Wallet</option>
+              <option value="expense" className="text-opposite-text">Expense Category</option>
+              <option value="wallet" className="text-opposite-text">Wallet</option>
             </select>
             {newCategory.icon && (
               <div className="flex items-center gap-2">

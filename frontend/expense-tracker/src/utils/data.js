@@ -5,6 +5,7 @@ import {
     LuLogOut,
     LuLayoutList,
 } from "react-icons/lu";
+import { GrAnalytics } from "react-icons/gr";
 
 export const SIDE_MENU_DATA = [
     {
@@ -28,7 +29,7 @@ export const SIDE_MENU_DATA = [
     {
         id: "04",
         label: "Analysis",
-        icon: LuHandCoins,
+        icon: GrAnalytics,
         path: "/analysis",
     },
     {

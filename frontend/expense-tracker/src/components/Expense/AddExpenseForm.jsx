@@ -44,7 +44,10 @@ const AddExpenseForm = ({ onAddExpense }) => {
         Category
         <select
           value={expense.category}
-          onChange={({ target }) => handleChange("category", target.value)}
+          onChange={({ target }) => {
+            console.log(target)
+            handleChange("category", target.value)
+          }}
           className="input"
         >
           <option value="">Select category</option>

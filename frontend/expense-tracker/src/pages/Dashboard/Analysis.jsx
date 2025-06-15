@@ -3,9 +3,10 @@ import FinanceOverview from "../../components/Dashboard/FinanceOverview"
 import Last30DaysExpenses from "../../components/Dashboard/Last30DaysExpenses"
 import RecentIncomeWithChart from "../../components/Dashboard/RecentIncomeWithChart"
 import DashboardLayout from "../../components/Layouts/DashboardLayout"
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 
 function Analysis() {
-
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -31,8 +32,6 @@ function Analysis() {
 
     useEffect(() => {
         fetchDashboardData();
-
-        return () => {};
     }, []);
 
   return (
