@@ -33,6 +33,7 @@ const RecentIncomeWithChart = ({ data, totalIncome }) => {
         totalAmount={`$${totalIncome}`}
         showTextAnchor
         colors={COLORS}
+        isWallet={true}
       />
     </div>
   );

@@ -30,7 +30,7 @@ const IncomeList = ({ transactions, onDelete, onDownload }) => {
           const wallet = wallets.find((wal) => wal._id === income.wallet)
           console.log(wallet)
 
-          return <TransactionInfoCard
+          return wallet ? <TransactionInfoCard
             key={income._id}
             title={wallet.name}
             icon={income.icon}
@@ -38,7 +38,9 @@ const IncomeList = ({ transactions, onDelete, onDownload }) => {
             amount={income.amount}
             type="income"
             onDelete={() => onDelete(income._id)}
-          />
+          /> : <div>
+            ERROR Loading Wallets
+          </div>
         })}
       </div>
     </div>
