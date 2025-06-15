@@ -28,7 +28,6 @@ const RecentIncome = ({transactions, onSeeMore}) => {
       <div className="mt-6">
         {transactions?.slice(0,5)?.map((item) => {
           const wallet = wallets.find((wal) => wal._id === item.wallet)
-          console.log(wallet)
 
           return (<TransactionInfoCard
             key={item._id}

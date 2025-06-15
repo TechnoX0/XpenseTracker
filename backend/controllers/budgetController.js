@@ -3,19 +3,18 @@ const Budget = require("../models/Budget");
 // Add Category
 exports.addBudget = async (req, res) => {
     try {
-        const { name, limit, categoryId } = req.body;
-        if (!name || !limit || !categoryId) {
+        const { limit, categoryId } = req.body;
+        if (!limit || !categoryId) {
             return res
                 .status(400)
                 .json({ message: "All fields must be present!" });
         }
         const budget = new Budget({
-            name,
             limit,
             categoryId,
         });
         await budget.save();
-        res.status(201).json(budget);
+        res.status(201).json(await Budget.find({}));
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
     }
@@ -24,8 +23,8 @@ exports.addBudget = async (req, res) => {
 // Get All Categories (optionally filter by type)
 exports.getBudgets = async (req, res) => {
     try {
-        const categories = await Category.find({});
-        res.json(categories);
+        const budget = await Budget.find({});
+        res.json(budget);
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }
@@ -34,9 +33,9 @@ exports.getBudgets = async (req, res) => {
 // Get All Categories (optionally filter by type)
 exports.getBudgetById = async (req, res) => {
     try {
-        const categoryId = req.id;
-        const categories = await Category.find({ categoryId });
-        res.json(categories);
+        const budgetId = req.id;
+        const budget = await Budget.find({ budgetId });
+        res.json(budget);
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }
@@ -66,8 +65,8 @@ exports.deleteBudget = async (req, res) => {
             _id: req.params.id,
         });
         if (!deleted)
-            return res.status(404).json({ message: "Category not found" });
-        res.json({ message: "Category deleted" });
+            return res.status(404).json({ message: "Budget not found" });
+        res.json({ message: "Budget deleted", budgets: await Budget.find({}) });
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
     }

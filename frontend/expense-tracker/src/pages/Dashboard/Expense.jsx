@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/Layouts/DashboardLayout";
 
-import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -14,9 +13,6 @@ import toast from "react-hot-toast";
 
 const Expense = () => {
   useUserAuth();
-
-  const navigate = useNavigate();
-
   const [expenseData, setExpenseData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -131,7 +127,7 @@ const Expense = () => {
     fetchExpenseDetails();
 
     return () => {};
-  }, []);
+  });
 
   return (
     <DashboardLayout activeMenu="Expense">

@@ -29,6 +29,8 @@ const ExpenseTransactions = ({transactions, onSeeMore}) => {
       <div className="mt-6">
         {categories && transactions?.slice(0,5)?.map((expense) => {
           const cat = categories.find((category) => category._id === expense.category)
+
+          if (!cat) return <div key={expense._id}>No Categories</div>
           
           return (<TransactionInfoCard
             key={expense._id}

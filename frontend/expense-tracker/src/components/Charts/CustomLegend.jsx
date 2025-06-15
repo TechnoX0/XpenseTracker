@@ -16,8 +16,6 @@ const CustomLegend = ({ payload, isWallet=false }) => {
     <div className="flex flex-wrap justify-center gap-2 mt-4 space-x-6">
       {payload.map((entry, index) => {
         const wallet = wallets.find((wal) => wal._id === entry.value)
-
-        console.log(entry)
         
         return isWallet && wallet ? 
         <div key={`legend-${index}`} className="flex items-center space-x-2">

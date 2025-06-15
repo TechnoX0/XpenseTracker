@@ -6,6 +6,7 @@ import {
     LuLayoutList,
 } from "react-icons/lu";
 import { GrAnalytics } from "react-icons/gr";
+import { LiaMoneyBillSolid } from "react-icons/lia";
 
 export const SIDE_MENU_DATA = [
     {
@@ -38,9 +39,14 @@ export const SIDE_MENU_DATA = [
         icon: LuLayoutList,
         path: "/categories",
     },
-
     {
         id: "06",
+        label: "Budget",
+        icon: LiaMoneyBillSolid,
+        path: "/budget",
+    },
+    {
+        id: "07",
         label: "Logout",
         icon: LuLogOut,
         path: "logout",

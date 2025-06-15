@@ -8,8 +8,9 @@ import EmojiPicker from "emoji-picker-react";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [ budgets, setBudgets ] = useState()
+  const [ expenses, setExpenses ] = useState()
   const [newCategory, setNewCategory] = useState({
     name: "",
     type: "expense", // default to expense
@@ -17,20 +18,21 @@ const Category = () => {
   });
 
   // Fetch categories
-  const fetchCategories = async () => {
-    setLoading(true);
+  const fetchData = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.CATEGORY.GET_ALL);
-      setCategories(response.data);
+      const categories = await axiosInstance.get(API_PATHS.CATEGORY.GET_ALL);
+      const budgets = await axiosInstance.get(API_PATHS.BUDGET.GET_ALL);
+      const expenses = await axiosInstance.get(API_PATHS.EXPENSE.GET_ALL_EXPENSE);
+      setCategories(categories.data);
+      setBudgets(budgets.data);
+      setExpenses(expenses.data);
     } catch (error) {
-      toast.error("Failed to fetch categories");
-    } finally {
-      setLoading(false);
+      toast.error("Failed to fetch categories: ", error);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchData();
   }, []);
 
   // Add category handler
@@ -44,20 +46,30 @@ const Category = () => {
       toast.success("Category added!");
       setOpenAddModal(false);
       setNewCategory({ name: "", type: "expense", icon: "" });
-      fetchCategories();
+      fetchData();
     } catch (error) {
-      toast.error("Failed to add category");
+      toast.error("Failed to add category: ", error);
     }
   };
 
   // Delete category handler
   const handleDeleteCategory = async (id) => {
     try {
+      fetchData()
+
+      for (const budget of budgets) {
+        if (budget.categoryId === id) await axiosInstance.delete(API_PATHS.BUDGET.DELETE(budget._id));
+      }
+
+      for (const expense of expenses) {
+        if (expense.category === id) await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(expense._id));
+      }
+      
       await axiosInstance.delete(API_PATHS.CATEGORY.DELETE(id));
       toast.success("Category deleted!");
-      fetchCategories();
+      fetchData();
     } catch (error) {
-      toast.error("Failed to delete category");
+      toast.error("Failed to delete category: ", error);
     }
   };
 
@@ -67,7 +79,7 @@ const Category = () => {
 
   return (
     <DashboardLayout activeMenu="Categories">
-      <div className="my-5 mx-auto max-w-4xl text-text">
+      <div className="flex flex-col gap-12 my-5 mx-auto max-w-4xl text-text">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Categories</h2>
           <button
@@ -79,116 +91,120 @@ const Category = () => {
         </div>
 
         {/* Expense Categories Table */}
-        <h3 className="text-lg font-semibold mb-2 mt-6">Expense Categories</h3>
-        <div className="overflow-x-auto mb-8">
-          <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
-                  Name
-                </th>
-                <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
-                  Icon
-                </th>
-                <th className="py-2 px-4 border-b border-gray-200 text-center">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenseCategories.length === 0 && (
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-semibold pl-4">Expense Categories</h3>
+          <div className="overflow-x-auto mb-8">
+            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
+              <thead>
                 <tr>
-                  <td
-                    colSpan={3}
-                    className="text-center py-4 text-gray-400"
-                  >
-                    No expense categories
-                  </td>
+                  <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
+                    Name
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
+                    Icon
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-center">
+                    Actions
+                  </th>
                 </tr>
-              )}
-              {expenseCategories.map((cat) => (
-                <tr key={cat._id} className="border-b border-gray-100">
-                  <td className="py-2 px-4 border-r border-gray-200 text-center">
-                    {cat.name}
-                  </td>
-                  <td className="py-2 px-4 border-r border-gray-200 text-center">
-                    {cat.icon ? (
-                      <img
-                        src={cat.icon}
-                        alt="icon"
-                        className="w-8 h-8 inline"
-                      />
-                    ) : (
-                      <span className="text-gray-400">No icon</span>
-                    )}
-                  </td>
-                  <td className="py-2 px-4 text-center">
-                    <button
-                      onClick={() => handleDeleteCategory(cat._id)}
-                      className="text-red-600 hover:text-red-800"
+              </thead>
+              <tbody>
+                {expenseCategories.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={3}
+                      className="text-center py-4 text-gray-400"
                     >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      No expense categories
+                    </td>
+                  </tr>
+                )}
+                {expenseCategories.map((cat) => (
+                  <tr key={cat._id} className="border-b border-gray-100">
+                    <td className="py-2 px-4 border-r border-gray-200 text-center">
+                      {cat.name}
+                    </td>
+                    <td className="py-2 px-4 border-r border-gray-200 text-center">
+                      {cat.icon ? (
+                        <img
+                          src={cat.icon}
+                          alt="icon"
+                          className="w-8 h-8 inline"
+                        />
+                      ) : (
+                        <span className="text-gray-400">No icon</span>
+                      )}
+                    </td>
+                    <td className="py-2 px-4 text-center">
+                      <button
+                        onClick={() => handleDeleteCategory(cat._id)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Wallets Table */}
-        <h3 className="text-lg font-semibold mb-2">Wallets</h3>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
-                  Name
-                </th>
-                <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
-                  Icon
-                </th>
-                <th className="py-2 px-4 border-b border-gray-200 text-center">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {walletCategories.length === 0 && (
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-semibold pl-4">Wallets</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
+              <thead>
                 <tr>
-                  <td colSpan={3} className="text-center py-4 text-gray-400">
-                    No wallets
-                  </td>
+                  <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
+                    Name
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
+                    Icon
+                  </th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-center">
+                    Actions
+                  </th>
                 </tr>
-              )}
-              {walletCategories.map((cat) => (
-                <tr key={cat._id} className="border-b border-gray-100">
-                  <td className="py-2 px-4 border-r border-gray-200 text-center">
-                    {cat.name}
-                  </td>
-                  <td className="py-2 px-4 border-r border-gray-200 text-center">
-                    {cat.icon ? (
-                      <img
-                        src={cat.icon}
-                        alt="icon"
-                        className="w-8 h-8 inline"
-                      />
-                    ) : (
-                      <span className="text-gray-400">No icon</span>
-                    )}
-                  </td>
-                  <td className="py-2 px-4 text-center">
-                    <button
-                      onClick={() => handleDeleteCategory(cat._id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {walletCategories.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="text-center py-4 text-gray-400">
+                      No wallets
+                    </td>
+                  </tr>
+                )}
+                {walletCategories.map((cat) => (
+                  <tr key={cat._id} className="border-b border-gray-100">
+                    <td className="py-2 px-4 border-r border-gray-200 text-center">
+                      {cat.name}
+                    </td>
+                    <td className="py-2 px-4 border-r border-gray-200 text-center">
+                      {cat.icon ? (
+                        <img
+                          src={cat.icon}
+                          alt="icon"
+                          className="w-8 h-8 inline"
+                        />
+                      ) : (
+                        <span className="text-gray-400">No icon</span>
+                      )}
+                    </td>
+                    <td className="py-2 px-4 text-center">
+                      <button
+                        onClick={() => handleDeleteCategory(cat._id)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Add Category/Wallet Modal */}

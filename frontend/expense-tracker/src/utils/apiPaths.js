@@ -32,4 +32,10 @@ export const API_PATHS = {
         UPDATE: (id) => `/api/v1/category/${id}`,
         DELETE: (id) => `/api/v1/category/${id}`,
     },
+    BUDGET: {
+        ADD: "/api/v1/budget/add",
+        GET_ALL: "/api/v1/budget/get",
+        GET_BY_ID: (id) => `/api/v1/budget/${id}`,
+        DELETE: (id) => `/api/v1/budget/delete/${id}`,
+    },
 };
