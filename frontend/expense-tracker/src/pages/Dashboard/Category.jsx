@@ -31,6 +31,17 @@ const Category = () => {
     }
   };
 
+  const setEmoji = (imageUrl) => {
+    setNewCategory(prev => {
+        const updated = {...prev, icon: imageUrl}
+        console.log(updated)
+        return updated
+    })
+    console.log(imageUrl)
+    // setNewCategory({ name: newCategory.name, type: newCategory.type, icon: imageUrl })
+    console.log({ name: newCategory.name, type: newCategory.type, icon: imageUrl })
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -58,6 +69,7 @@ const Category = () => {
       fetchData()
 
       for (const budget of budgets) {
+        console.log(budget.categoryId, id, budget.categoryId === id)
         if (budget.categoryId === id) await axiosInstance.delete(API_PATHS.BUDGET.DELETE(budget._id));
       }
 
@@ -94,7 +106,7 @@ const Category = () => {
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold pl-4">Expense Categories</h3>
           <div className="overflow-x-auto mb-8">
-            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
+            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-black">
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
@@ -154,7 +166,7 @@ const Category = () => {
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold pl-4">Wallets</h3>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-opposite-text">
+            <table className="min-w-full bg-white rounded shadow border border-gray-200 text-black">
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b border-gray-200 border-r text-center">
@@ -218,15 +230,17 @@ const Category = () => {
               className="input"
               placeholder="Name"
               value={newCategory.name}
-              onChange={(e) =>
-                setNewCategory({ ...newCategory, name: e.target.value })
+              onChange={(e) => {
+                  setNewCategory((prev) => ({ ...prev, name: e.target.value }))
+              }
               }
             />
             <select
-              className="inpu"
+              className="input"
               value={newCategory.type}
-              onChange={(e) =>
-                setNewCategory({ ...newCategory, type: e.target.value })
+              onChange={(e) => {
+                  setNewCategory((prev) => ({ ...prev, type: e.target.value }))
+              }
               }
             >
               <option value="expense" className="text-opposite-text">Expense Category</option>
@@ -243,8 +257,7 @@ const Category = () => {
               </div>
             )}
             <EmojiPicker
-              onEmojiClick={(emojiData) =>
-                setNewCategory({ ...newCategory, icon: emojiData.imageUrl })
+              onEmojiClick={(emojiData) => setEmoji(emojiData.imageUrl)
               }
             />
             <button

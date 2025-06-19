@@ -31,6 +31,8 @@ export const BudgetList = ({budgets, onDelete, onClick}) => {
                     const categoryExpenses = expenses.filter((expense) => expense.category === category._id)
                     const totalExpense = categoryExpenses.reduce((acc, curr) => acc + curr.amount, 0)
 
+                    console.log(category)
+
                     return <BudgetInfoCard
                         key={budget._id}
                         icon={category.icon}
